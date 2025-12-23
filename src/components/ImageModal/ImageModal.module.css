@@ -1,0 +1,22 @@
+.modalOverlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.75);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+}
+
+.modalContent {
+    max-width: 900px;
+    width: 100%;
+    outline: none;
+    border-radius: 8px;
+    overflow: hidden;
+    background: transparent;
+}
+
+body.modalOpen {
+    overflow: hidden;
+}

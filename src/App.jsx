@@ -1,35 +1,105 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import ImageGallery from "./components/ImageGallery/ImageGallery";
+import SearchBar from "./components/SearchBar/SearchBar";
+import toast, { Toaster } from "react-hot-toast";
+import { getPhotos } from "./apiService/photos";
+import { useState } from "react";
+import { ClipLoader } from "react-spinners";
+import ImageModal from "./components/ImageModal/ImageModal";
+
+const override = {
+  margin: "20px auto",
+};
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [photos, setPhotos] = useState([]);
+  const [page, setPage] = useState(1);
+  const [query, setQuery] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
+
+  const handleSub = async (searchQuery) => {
+    try {
+      setLoading(true);
+      setQuery(searchQuery);
+      setPage(1);
+      const results = await getPhotos(searchQuery, 1);
+      if (results.length === 0) {
+        toast.error("No images found");
+        setPhotos([]);
+        return;
+      }
+      setPhotos(results);
+    } catch {
+      toast.error("Failed to load images");
+    } finally {
+      setLoading(false);
+    }
+  };
+  const notify = () => toast("Enter some text!");
+
+  const handleLoadMore = async () => {
+    try {
+      setLoading(true);
+      const nextPage = page + 1;
+      const results = await getPhotos(query, nextPage);
+
+      setPhotos((prev) => {
+        const ids = new Set(prev.map((img) => img.id));
+        const uniqueNew = results.filter((img) => !ids.has(img.id));
+        return [...prev, ...uniqueNew];
+      });
+      setPage(nextPage);
+    } catch {
+      toast.error("Failed to load more images");
+    } finally {
+      setLoading(false);
+    }
+  };
+  const openModal = (image) => {
+    setSelectedImage(image);
+    setIsModalOpen(true);
+  };
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedImage(null);
+  };
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <SearchBar onSubmit={handleSub} onError={notify} />
+      <ImageGallery images={photos} onImageClick={openModal} />
+      {loading && (
+        <ClipLoader
+          color="#026ae0"
+          loading={loading}
+          cssOverride={override}
+          size={80}
+          aria-label="Loading Spinner"
+        />
+      )}
+      {photos.length > 0 && !loading && (
+        <button onClick={handleLoadMore}>Load more</button>
+      )}
+      <ImageModal
+        isOpen={isModalOpen}
+        image={selectedImage}
+        onClose={closeModal}
+      />
+
+      <Toaster
+        position="top-right"
+        reverseOrder={false}
+        toastOptions={{
+          duration: 2000,
+          style: {
+            background: "#363636",
+            color: "#fff",
+          },
+        }}
+      />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
