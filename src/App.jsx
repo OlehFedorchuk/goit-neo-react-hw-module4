@@ -3,14 +3,9 @@ import SearchBar from "./components/SearchBar/SearchBar";
 import toast, { Toaster } from "react-hot-toast";
 import { getPhotos } from "./apiService/photos";
 import { useState } from "react";
-import { ClipLoader } from "react-spinners";
+import Loader from "./components/Loader/Loader";
 import ImageModal from "./components/ImageModal/ImageModal";
 import LoadMoreBtn from "./components/LoadMoreBtb/LoadMoreBtn";
-
-const override = {
-  display: "block",
-  margin: "20px auto",
-};
 
 function App() {
   const [photos, setPhotos] = useState([]);
@@ -71,15 +66,7 @@ function App() {
     <>
       <SearchBar onSubmit={handleSub} onError={notify} />
       <ImageGallery images={photos} onImageClick={openModal} />
-      {loading && (
-        <ClipLoader
-          color="#026ae0"
-          loading={loading}
-          cssOverride={override}
-          size={80}
-          aria-label="Loading Spinner"
-        />
-      )}
+      {loading && <Loader loading={loading} />}
       {photos.length > 0 && !loading && (
         <LoadMoreBtn onClick={handleLoadMore} />
       )}
