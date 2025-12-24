@@ -10,7 +10,6 @@ const ErrorMassage = () => {
       containerStyle={{}}
       toasterId="default"
       toastOptions={{
-        // Define default options
         className: "",
         duration: 2000,
         removeDelay: 500,
@@ -18,8 +17,6 @@ const ErrorMassage = () => {
           background: "#363636",
           color: "#fff",
         },
-
-        // Default options for specific types
         success: {
           duration: 2000,
           iconTheme: {

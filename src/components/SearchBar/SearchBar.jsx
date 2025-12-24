@@ -1,3 +1,5 @@
+import css from "./SearchBar.module.css";
+import clsx from "clsx";
 const SearchBar = ({ onSubmit, onError }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -11,17 +13,20 @@ const SearchBar = ({ onSubmit, onError }) => {
   };
 
   return (
-    <header>
-      <form onSubmit={handleSubmit}>
+    <header className={clsx(css.header)}>
+      <form className={clsx(css.form)} onSubmit={handleSubmit}>
+        <button type="submit" className={clsx(css.button)}>
+          🔍
+        </button>
+
         <input
-          className="input"
+          className={clsx(css.input)}
           type="text"
           name="search"
           autoComplete="off"
           autoFocus
           placeholder="Search images and photos"
         />
-        <button type="submit">Search</button>
       </form>
     </header>
   );

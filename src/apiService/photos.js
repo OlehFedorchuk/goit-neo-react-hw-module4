@@ -8,7 +8,7 @@ const api = axios.create({
     Authorization: `Client-ID ${API_KEY}`,
   },
   params: {
-    per_page: 20,
+    per_page: 15,
     orientation: "landscape",
   },
 });

@@ -5,8 +5,10 @@ import { getPhotos } from "./apiService/photos";
 import { useState } from "react";
 import { ClipLoader } from "react-spinners";
 import ImageModal from "./components/ImageModal/ImageModal";
+import LoadMoreBtn from "./components/LoadMoreBtb/LoadMoreBtn";
 
 const override = {
+  display: "block",
   margin: "20px auto",
 };
 
@@ -79,7 +81,7 @@ function App() {
         />
       )}
       {photos.length > 0 && !loading && (
-        <button onClick={handleLoadMore}>Load more</button>
+        <LoadMoreBtn onClick={handleLoadMore} />
       )}
       <ImageModal
         isOpen={isModalOpen}

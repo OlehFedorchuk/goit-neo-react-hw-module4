@@ -4,4 +4,11 @@
     column-gap: 10px;
     row-gap: 10px;
     list-style: none;
+    justify-content: center;
+}
+
+ul {
+    margin-left: 0;
+    margin-right: 0;
+    padding: 0;
 }

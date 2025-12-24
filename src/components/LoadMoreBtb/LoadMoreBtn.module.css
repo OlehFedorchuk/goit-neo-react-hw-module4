@@ -1,0 +1,33 @@
+.button {
+    display: block;
+    margin: 32px auto;
+
+    padding: 12px 28px;
+    font-size: 16px;
+    font-weight: 500;
+
+    border-radius: 8px;
+    border: none;
+
+    background-color: #026ae0;
+    color: #fff;
+    cursor: pointer;
+
+    transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
+}
+
+.button:hover {
+    background-color: #0156b8;
+    box-shadow: 0 6px 16px rgba(2, 106, 224, 0.35);
+}
+
+.button:active {
+    transform: scale(0.96);
+}
+
+.button:disabled {
+    background-color: #8bb3f0;
+    cursor: not-allowed;
+    box-shadow: none;
+
+}
